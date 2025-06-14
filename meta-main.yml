@@ -1,0 +1,14 @@
+galaxy_info:
+  role_name: ansible-role-hbss
+  description: ansible role to configure hbss
+ 
+  platforms:
+  - name: EL
+    versions:
+    - all
+ 
+  galaxy_tags:
+  - hbss
+  - ansible-role-hbss
+
+dependencies: []
