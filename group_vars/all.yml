@@ -1,0 +1,4 @@
+common:
+  hbss:
+    package_name: "McAfeeHBSS"
+    version: "10.7.5"

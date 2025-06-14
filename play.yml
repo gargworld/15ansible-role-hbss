@@ -1,0 +1,12 @@
+---
+- name: Run a single role locally
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+
+  tasks:
+    - name: Include role directly
+      include_role:
+        name: 15ansible-role-hbss
+      vars:
+        some_var: some_value

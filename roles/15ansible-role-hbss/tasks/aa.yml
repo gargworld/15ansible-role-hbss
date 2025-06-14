@@ -1,0 +1,31 @@
+- name: Gather Package Facts
+  package_facts:
+    manager: auto
+
+- name: Set fact hbss_package
+  set_fact:
+    hbss_package: "{{ ansible_facts.packages[common.hbss.package_name] }}"
+  when:
+    - ansible_facts.packages[hbss.package.name] is defined
+    - ansible_facts.packages[hbss.package.name] | length > 0
+
+- name: Show current and desired versions
+  debug:
+    msg: "Would remove {{ hbss_package[0].version }} and install {{ common.hbss.version }}"
+  when:
+    - hbss_package is defined
+    - hbss_package | length > 0
+
+- name: Uninstall HBSS
+  include_tasks: uninstall.yml
+  when:
+    - hbss_package is defined
+    - hbss_package | length > 0
+    - hbss_package[0].version != common.hbss.version
+
+- name: Install HBSS
+  include_tasks: install.yml
+  when:
+    - common.hbss.package_name is not none
+    - common.hbss.version is not none
+    - hbss_package is not defined or hbss_package | length == 0 or hbss_package[0].version != common.hbss.version
