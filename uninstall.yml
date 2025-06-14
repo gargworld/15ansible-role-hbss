@@ -1,0 +1,44 @@
+---
+
+- name: "service mfetpd stop"
+  become: true
+  shell:
+    cmd: "service mfetpd stop"
+  ignore_errors: true
+
+- name: Remove hbss
+  become: yes
+  package:
+    name:
+      - common.hbss.package_name
+    state: absent
+
+- name: "rpm -e MFEdx --nodeps --noscripts"
+  become: true
+  shell:
+    cmd: "rpm -e MFEdx --nodeps --noscripts"
+  ignore_errors: true
+
+- name: "rpm -e MFEcma --nodeps --noscripts"
+  become: true
+  shell:
+    cmd: "rpm -e MFEcma --nodeps --noscripts"
+  ignore_errors: true
+
+- name: "rpm -e MFErt --nodeps --noscripts"
+  become: true
+  shell:
+    cmd: "rpm -e MFErt --nodeps --noscripts"
+  ignore_errors: true
+
+- name: "rm -rf /opt/McAfee/cma"
+  become: true
+  shell:
+    cmd: "rm -rf /opt/McAfee/cma"
+  ignore_errors: true
+
+- name: "rm -rf /etc/cma.d"
+  become: true
+  shell:
+    cmd: "rm -rf /etc/cma.d"
+  ignore_errors: true
