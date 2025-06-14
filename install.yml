@@ -1,0 +1,33 @@
+---
+
+- name: Remove hbss if it does not match specified package
+  become: yes
+  package:
+    name:
+      - hbss
+    state: absent
+  when: common.hbss.package_name != "hbss"
+
+- name: Install hbss Third Party package
+  become: yes
+  package:
+    name:
+      - "{{ common.hbss.package_name }}-{{ common.hbss.version }}"
+    state: latest
+  register: hbss
+  when:
+    - common.hbss.package_name  is not none
+    - common.hbss.version  is not none
+
+- name: Run hbss installer
+  become: yes
+  command: /usr/share/hbss/install.sh -i
+  throttle: 5
+  when: hbss.changed
+  ignore_errors: True
+
+- name: "service mfetpd start"
+  become: true
+  shell:
+    cmd: "service mfetpd start"
+  ignore_errors: true
